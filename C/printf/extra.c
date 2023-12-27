@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * inToStr - This function converts a number into a string
+ * inToStr - This function converts a number at any base into a string
  *  to be added into the buffer
  * @n: The number without the sign if it exists
  * @type: The base to be used in the convertion
@@ -12,15 +12,24 @@
 
 char *inToStr(unsigned long n, int type, int sign)
 {
-	char tmp[1024], *result;
-	int i, r = 0;
-	int base[] = {DEC, DEC, BIN};
+	char tmp[1024], *result, hex_n = 'a';
+	int i, r = 0, n_tmp;
+	int base[] = {DEC, DEC, BIN, HEX, HEX, OCT, DEC};
 
 	if (n == 0)
 		return (strdup("0"));
 
+	if (type == 4)
+		hex_n = 'A';
+
 	for (i = 0; n; i++, n /= base[type])
-		tmp[i] = n % base[type] + '0';
+	{
+		n_tmp = n % base[type];
+		if (n_tmp > 9)
+			tmp[i] = hex_n + (n_tmp - 10);
+		else
+			tmp[i] = '0' + n_tmp;
+	}
 
 	result = malloc((sign + 1 + i--) * sizeof(char));
 	if (result == NULL)

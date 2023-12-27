@@ -20,7 +20,11 @@ int _printf(const char *format, ...)
 		{'c', char_f},
 		{'d', number_f},
 		{'i', number_f},
-		{'b', number_u}
+		{'b', number_u},
+		{'x', number_u},
+		{'X', number_u},
+		{'o', number_u},
+		{'u', number_u}
 	};
 
 
@@ -43,7 +47,7 @@ int _printf(const char *format, ...)
 				if (tmp != -1)
 				{
 					i = tmp;
-					for (fp = 0; fp < 5; fp++)
+					for (fp = 0; fp < 9; fp++)
 					{
 					if (format[i] == data[fp].csp)
 					{
@@ -73,7 +77,7 @@ int _printf(const char *format, ...)
 
 int check_elegible(const char *format, int i)
 {
-	char *flags = "csdib";
+	char *flags = "csdibxXou";
 	int j;
 
 	while (format[i] == ' ')

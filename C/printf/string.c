@@ -97,7 +97,7 @@ int number_f(char *buffer, va_list args, int idx, char F)
 
 int number_u(char *buffer, va_list args, int idx, char F)
 {
-	char *type_c = "b", *tmp;
+	char *type_c = "bxXou", *tmp;
 	int i, number;
 
 	for (i = 0; type_c[i]; i++)
