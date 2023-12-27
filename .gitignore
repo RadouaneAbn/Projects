@@ -1,4 +1,18 @@
-*
-!/**/
+###############################
+# handling ignored file in C/ #
+###############################
+
+# Ignore everything
+C/**
+
+# Allow all directories
+!C/**/
+
+# Allow files with .h, .c, or .md extensions
 !C/**/*.[h, c, md]
+
+# Ignore files or directories that start with "test"
 C/**/test*
+
+######################################################
+######################################################
