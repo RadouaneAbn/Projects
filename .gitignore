@@ -9,7 +9,9 @@ C/**
 !C/**/
 
 # Allow files with .h, .c, or .md extensions
-!C/**/*.[h, c, md]
+!C/**/*.h
+!C/**/*.c
+!C/**/*.md
 
 # Ignore files or directories that start with "test"
 C/**/test*
