@@ -22,6 +22,51 @@ int char_f(char *buffer, va_list args, int idx, char F)
 }
 
 /**
+ * string_s - Format a string and store it in a buffer.
+ *	replace special characters with their ascii value in hexadecimal.
+ * @buffer: The buffer to store the formatted string.
+ * @args: The variable arguments list containing the string.
+ * @idx: The current index in the buffer.
+ * @F: The format specifier.
+ *
+ * Return: The number of characters added to the buffer.
+ */
+
+int string_s(char *buffer, va_list args, int idx, char F)
+{
+	int i;
+	char *str = va_arg(args, char *);
+	char *hexStr = "\\x0", *tmp;
+	int n_char, j, str_ascii, idx_start = idx;
+
+	if (!str)
+		str = "\\x00";
+
+	for (i = 0; str[i]; i++)
+	{
+		n_char = 2, str_ascii = str[i];
+		if (str_ascii < 32 || str_ascii >= 127)
+		{
+			if (str_ascii < 16)
+				n_char++;
+
+			for (j = 0; j < n_char; j++)
+				buffer[idx++] = hexStr[j];
+
+			tmp = inToStr(str_ascii, 4, 0);
+			for (j = 0; tmp[j]; j++)
+				buffer[idx++] = tmp[j];
+
+			if (tmp)
+				free(tmp);
+		}
+		else
+			buffer[idx++] = str[i];
+	}
+	return (idx - idx_start);
+}
+
+/**
  * string_f - Format a string and store it in a buffer.
  * @buffer: The buffer to store the formatted string.
  * @args: The variable arguments list containing the string.
@@ -45,71 +90,4 @@ int string_f(char *buffer, va_list args, int idx, char F)
 	return (i);
 }
 
-/**
- * number_f - Format a (un)signed number and store it in a buffer.
- *  This function handles the decimal base
- * @buffer: The buffer to store the formatted number.
- * @args: The variable arguments list containing the number.
- * @idx: The current index in the buffer.
- * @F: The format specifier.
- *
- * Return: The number of characters added to the buffer.
- */
 
-int number_f(char *buffer, va_list args, int idx, char F)
-{
-	char *type_c = "di", *tmp;
-	int i, sign = 0;
-	long int number;
-	unsigned long n;
-
-	for (i = 0; type_c[i]; i++)
-	{
-		if (type_c[i] == F)
-			break;
-	}
-	number = va_arg(args, int);
-
-	if (number < 0)
-		n = -1 * number, sign = 1;
-	else
-		n = number;
-
-	tmp = inToStr(n, i, sign);
-
-	for (i = 0; tmp[i]; i++)
-		buffer[idx++] = tmp[i];
-
-	free(tmp);
-	return (i);
-}
-
-/**
- * number_u - Format a unsigned number and store it in a buffer.
- *  This function handles the binary, hexa and octa bases
- * @buffer: The buffer to store the formatted number.
- * @args: The variable arguments list containing the number.
- * @idx: The current index in the buffer.
- * @F: The format specifier.
- *
- * Return: The number of characters added to the buffer.
- */
-
-int number_u(char *buffer, va_list args, int idx, char F)
-{
-	char *type_c = "bxXou", *tmp;
-	int i, number;
-
-	for (i = 0; type_c[i]; i++)
-	{
-		if (type_c[i] == F)
-			break;
-	}
-	tmp = inToStr(va_arg(args, unsigned long), i + 2, 0);
-
-	for (i = 0; tmp[i]; i++)
-		buffer[idx++] = tmp[i];
-
-	free(tmp);
-	return (i);
-}

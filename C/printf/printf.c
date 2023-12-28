@@ -14,17 +14,11 @@ int _printf(const char *format, ...)
 	char buffer[BUF_SIZE], fl;
 	va_list args;
 	int i, det, fp = 0, tmp;
-	int buf_i = 0;
+	int buf_i = 0, size = 11;
 	flag_t data[] = {
-		{'s', string_f},
-		{'c', char_f},
-		{'d', number_f},
-		{'i', number_f},
-		{'b', number_u},
-		{'x', number_u},
-		{'X', number_u},
-		{'o', number_u},
-		{'u', number_u}
+		{'s', string_f}, {'S', string_s}, {'c', char_f}, {'d', number_f},
+		{'i', number_f}, {'b', number_u}, {'x', number_u}, {'X', number_u},
+		{'o', number_u}, {'u', number_u}, {'p', address}
 	};
 
 
@@ -47,7 +41,7 @@ int _printf(const char *format, ...)
 				if (tmp != -1)
 				{
 					i = tmp;
-					for (fp = 0; fp < 9; fp++)
+					for (fp = 0; fp < size; fp++)
 					{
 					if (format[i] == data[fp].csp)
 					{
@@ -77,7 +71,7 @@ int _printf(const char *format, ...)
 
 int check_elegible(const char *format, int i)
 {
-	char *flags = "csdibxXou";
+	char *flags = "csSdibxXoup";
 	int j;
 
 	while (format[i] == ' ')

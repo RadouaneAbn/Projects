@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <string.h>
 
-#define BUF_SIZE 32768
+#define BUF_SIZE 1024
 #define DEC 10
 #define HEX 16
 #define OCT 8
@@ -27,7 +27,7 @@ typedef enum kind_e
 } type;
 
 /**
- * opt_t - Structure representing options for formatting.
+ * struct opt_s - Structure representing options for formatting.
  *
  * @sign: The sign option (positive, negative).
  * @type: The type option (integer, string, character, etc.).
@@ -46,7 +46,8 @@ typedef struct opt_s
 } opt_t;
 
 /**
- * flag_t - Structure representing a formatting flag and its associated function.
+ * struct flag_s - Structure representing a formatting flag
+ *	and its associated function.
  *
  * @csp: The format specifier character (c, s, d, etc.).
  * @f: A function pointer to the corresponding formatting function.
@@ -61,9 +62,12 @@ typedef struct flag_s
 int _printf(const char *format, ...);
 int char_f(char *buffer, va_list args, int idx, char F);
 int string_f(char *buffer, va_list args, int idx, char F);
+int string_s(char *buffer, va_list args, int idx, char F);
 int number_f(char *buffer, va_list args, int idx, char F);
 int number_u(char *buffer, va_list args, int idx, char F);
 char *inToStr(unsigned long n, int type, int sign);
 int check_elegible(const char *format, int i);
+int address(char *buffer, va_list args, int idx, char F);
+int strcnt(char *buffer, int idx, char *src);
 
 #endif /* MAIN_H */
