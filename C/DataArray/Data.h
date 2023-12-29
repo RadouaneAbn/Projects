@@ -20,8 +20,8 @@ typedef enum kind_e
 
 typedef struct Block
 {
-    kind type;
-    void *data;
+	kind type;
+	void *data;
 } Block_t;
 
 void getInput(Block_t *node);
