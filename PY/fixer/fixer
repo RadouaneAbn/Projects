@@ -1,0 +1,132 @@
+#!/usr/bin/python3
+
+import pycodestyle
+import sys
+import os
+import re
+
+tmp_file = "work_in_progress"
+style = pycodestyle.StyleGuide()
+
+class fixer():
+
+    def __init__(self):
+        self.data = []
+        self.new_data = []
+        self.added_lines = 0
+        self.errors = []
+
+    def save_copy(self, file_name):
+        try:
+            with open(file_name, "r") as f:
+               self.data.extend(f.readlines())
+        except FileNotFoundError as e:
+            print(f"No such file or directory: '{file_name}'")
+            exit(1)
+        
+        with open(tmp_file, "w") as f:
+            f.writelines(self.data)
+
+    def scan(self, file_name):
+        # errors = []
+        py_code = f"pycodestyle {file_name}"
+        output = os.popen(py_code).read()
+        lines = output.split('\n')
+        for line in lines:
+            patt = re.compile(r"^([^:]+):(\d+):(\d+):\s(\S+)\s(.*)$")
+            res = patt.match(line)
+            if res:
+                # print(res.groups())
+                tmp_dict = {
+                "file": res.group(1),
+                "line": int(res.group(2)),
+                "idx": int(res.group(3)),
+                "code": res.group(4),
+                "msg": res.group(5)
+                }
+            self.errors.insert(0, tmp_dict)
+        return self.errors
+
+    def white_space(self, n):
+        # n += self.added_lines
+        ref = self.data[n - 1]
+        if re.match(r"^\s+$", ref):
+            self.data[n - 1] = ref.strip(" \t")
+        else:
+            self.data[n - 1] = re.sub(r"[ \t]+$", "", ref)
+
+    def new_line(self, n):
+        self.data.insert(n - 1, "\n")
+
+    def pop_line(self, n):
+        """removes a line"""
+        i = 0
+        while re.match(r"^\s*$",  self.data[n - 2 - i - 1]):
+            # print("pop")
+            self.data.pop(n - 2 - i)
+            i += 1
+
+    def end_line(self, n):
+        """add a new line to end of the file"""
+        self.data.append("\n")
+        self.white_space(n)
+        # self.data.pop(n)
+        # print("end")
+
+
+
+
+if __name__ == '__main__':
+    if len(sys.argv) <= 1:
+        print("Usage: fixer FILE")
+
+    # white_space(sys.argv[1])
+    file_path = sys.argv[1]
+    start = fixer()
+
+    func = {
+            "W291": start.white_space,
+            "E301": start.new_line,
+            "E303": start.pop_line,
+            "W292": start.end_line
+        }
+
+    start.save_copy(file_path)
+
+    errors = start.scan(tmp_file)
+    # print(errors)
+    tmp_err = ""
+    for err in errors:
+        name = err['code']
+        n = int(err['line'])
+        if err == tmp_err:
+            continue
+        try:
+            # print(err)
+            func[name](n)
+        except Exception:
+            pass
+        tmp_err = err
+        # print(err)
+    
+    with open(tmp_file, "w") as f:
+        f.writelines(start.data)
+
+
+
+# def white_space(file_name):
+#     try:
+#         with open(file_name, "r") as f:
+#             data.extend(f.readlines())
+#     except FileNotFoundError as e:
+#         print(e)
+#         exit(1)
+
+#     for line in data:
+#         if re.match(r"^\s+$", line):
+#             new_data.append(line.strip(" \t"))
+#         else:
+#             new_data.append(re.sub(r"[ \t]+$", "", line))
+
+#     with open(tmp_file, "w") as f:
+#         f.writelines(new_data)
