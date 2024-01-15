@@ -15,6 +15,7 @@ class fixer():
         self.new_data = []
         self.added_lines = 0
         self.errors = []
+        self.current_error = ""
 
     def save_copy(self, file_name):
         try:
@@ -58,10 +59,25 @@ class fixer():
     def new_line(self, n):
         self.data.insert(n - 1, "\n")
 
+    def new_line_class(self, n):
+        idx = re.match(r"^.*(\d+).*(\d+)", self.current_error)
+        i = int(idx.group(1)) - int(idx.group(2))
+        print(i)
+        for l in range(i):
+            self.data.insert(n - 1, "\n")
+
     def pop_line(self, n):
         """removes a line"""
         i = 0
         while re.match(r"^\s*$",  self.data[n - 2 - i - 1]):
+            # print("pop")
+            self.data.pop(n - 2 - i)
+            i += 1
+
+    def pop_line_decorator(self, n):
+        """removes a line"""
+        i = 0
+        while re.match(r"^\s*$",  self.data[n - 2 - i]):
             # print("pop")
             self.data.pop(n - 2 - i)
             i += 1
@@ -86,8 +102,11 @@ if __name__ == '__main__':
 
     func = {
             "W291": start.white_space,
+            "W293": start.white_space,
             "E301": start.new_line,
+            "E302": start.new_line_class,
             "E303": start.pop_line,
+            "E304": start.pop_line_decorator,
             "W292": start.end_line
         }
 
@@ -99,6 +118,7 @@ if __name__ == '__main__':
     for err in errors:
         name = err['code']
         n = int(err['line'])
+        start.current_error = err['msg']
         if err == tmp_err:
             continue
         try:
