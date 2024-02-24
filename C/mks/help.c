@@ -49,10 +49,12 @@ void help_msg(void)
 "   This OPTION will be -b in the first run if run with no argument\n"
 "\n"
 "   -b           bash shebang             - '#!/bin/bash'\n"
-"   -p           python shebang           - '#!/usr/bin/python3'\n");
+"   -p           python shebang           - '#!/usr/bin/python3'\n"
+"   -n           node shebang             - '#!/usr/bin/node'\n\n");
 	printf(
 "   -B           bash environ shebang     - '#!/usr/bin/env bash'\n"
 "   -P           python environ shebang   - '#!/usr/bin/env python3'\n"
+"   -N           node environ shebang     - #!/usr/bin/env node'\n"
 "\n"
 "		--help       display this help and exit\n"
 "		--version     display the version information\n"

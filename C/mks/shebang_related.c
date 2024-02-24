@@ -9,10 +9,14 @@
 void add_shebang(const char *name, int type)
 {
 	FILE *f;
-	const char *she_bang[4] = {"#!/bin/bash\n",
-	"#!/usr/bin/python3\n",
+	const char *she_bang[8] = {"#!/bin/bash\n",
 	"#!/usr/bin/env bash\n",
-	"#!/usr/bin/env python3\n"};
+	"#!/usr/bin/python3\n",
+	"#!/usr/bin/env python3\n",
+	"#!/usr/bin/node",
+	"#!/usr/bin/env node",
+	"#!/usr/bin/ruby",
+	"#!/usr/bin/env ruby"};
 
 	f = fopen(name, "w");
 	if (f == NULL)

@@ -70,7 +70,9 @@ int CheckCmd(int ac, char *av[])
 
 	/*<-- Check for flag -->*/
 	if (ac > 1 && (!strcmp(av[i], "-b") || !strcmp(av[i], "-p")
-				|| !strcmp(av[i], "-B") || !strcmp(av[i], "-P")))
+				|| !strcmp(av[i], "-B") || !strcmp(av[i], "-P")
+				|| !strcmp(av[i], "-R") || !strcmp(av[i], "-r")
+				|| !strcmp(av[i], "-N") || !strcmp(av[i], "-n")))
 	{
 		/*<-- if flag exists update the type of the script -->*/
 		update_data_file(av[i]);

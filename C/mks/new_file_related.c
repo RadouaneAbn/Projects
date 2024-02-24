@@ -21,7 +21,15 @@ void make_script(const char *name, const char *flag)
 		she_bang = SE;
 	else if (!strcmp(flag, "-P"))
 		she_bang = PE;
-
+	else if (!strcmp(flag, "-n"))
+		she_bang = NO;
+	else if (!strcmp(flag, "-N"))
+		she_bang = NE;
+	else if (!strcmp(flag, "-r"))
+		she_bang = RU;
+	else if (!strcmp(flag, "-R"))
+		she_bang = RE;
+	
 	/*<-- add SheBang -->*/
 	add_shebang(name, she_bang);
 }

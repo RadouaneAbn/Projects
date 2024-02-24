@@ -8,9 +8,13 @@
 #include <time.h>
 
 #define SH 0
-#define PY 1
-#define SE 2
+#define SE 1
+#define PY 2
 #define PE 3
+#define NO 4
+#define NE 5
+#define RU 6
+#define RE 7
 
 #define USAGE 111
 #define HELP 222
