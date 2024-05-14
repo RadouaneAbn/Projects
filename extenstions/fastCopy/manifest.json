@@ -1,0 +1,11 @@
+{
+    "name": "fastCopy",
+    "version": "1.0.0",
+    "description": "a simple copy past tmp storage",
+    "manifest_version": 3,
+    "author": "Radouane Abounouas",
+    "action": {
+        "default_popup": "index.html",
+        "default_title": "fastCopy"
+    }
+}
